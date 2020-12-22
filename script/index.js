@@ -6,15 +6,9 @@
 // 5. Виклик функції 
 
 "use strict"
-import {
-    radioPlayerInit
-} from './radioPlayer.js';
-import {
-    videoPlayerInit
-} from './videoPlayer.js';
-import {
-    musicPlayerInit
-} from './musicPlayer.js';
+import { videoPlayerInit } from './videoPlayer.js';
+import { radioPlayerInit } from './radioPlayer.js';
+import { musicPlayerInit } from './musicPlayer.js';
 
 const playerBtn = document.querySelectorAll('.player-btn'),
     playerBlock = document.querySelectorAll('.player-block'),
@@ -29,13 +23,13 @@ const playerBtn = document.querySelectorAll('.player-btn'),
 
 
 playerBtn.forEach((btn, index) => {
-    console.log(btn);
-    console.log(playerBlock[index]);
     btn.addEventListener('click', (x) => { 
         deactivationPlayer();
          btn.classList.add('active');
          playerBlock[index].classList.add('active');
     })
 });
-console.log('playerBtn: ', playerBtn);
-console.log('playerBtn: ', playerBlock);
+
+videoPlayerInit();
+radioPlayerInit();
+musicPlayerInit();
