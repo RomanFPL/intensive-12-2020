@@ -15,7 +15,13 @@ const videoPlayer = document.querySelector('.video-player'),
     videoButtonStop = document.querySelector('.video-button__stop'),
     videoTimePassed = document.querySelector('.video-time__passed'),
     videoProgress = document.querySelector('.video-progress'),
-    videoTimeTotal = document.querySelector('.video-time__total');
+    videoTimeTotal = document.querySelector('.video-time__total'),
+    videoVolume = document.querySelector('.video-volume'),
+    volumeDown = document.querySelector('.volumeDown'),
+    volumeUp = document.querySelector('.volumeUp');
+
+    let saveCV = videoVolume.value;
+    
 
 const toggleIcon = () => {
     if (videoPlayer.paused) {
@@ -44,6 +50,35 @@ const stopPlay = () => {
 
 const addZero = n => n < 10 ? '0' + n : n;
 
+const changeVolume = () => {
+    const valuerVolume = videoVolume.value;
+    videoPlayer.volume = valuerVolume / 100;
+    saveCV = videoVolume.value;
+};
+
+const toZeroValue = () => {
+    if (videoVolume.value == 0) {
+        videoVolume.value = saveCV;
+        videoPlayer.volume = saveCV / 100;
+        volumeDown.classList.add('fa-volume-down');
+        volumeDown.classList.remove('fa-times-circle-o');
+    } else {
+        videoVolume.value = 0;
+        videoPlayer.volume = 0;
+        volumeDown.classList.add('fa-times-circle-o');
+        volumeDown.classList.remove('fa-volume-down');
+    }
+};
+const toMaxValue = () => {
+    if (videoVolume.value == 100) {
+        videoVolume.value = saveCV;
+        videoPlayer.volume = saveCV / 100;
+    } else {
+        videoVolume.value = 100;
+        videoPlayer.volume = 1;
+    }
+}
+
 videoPlayer.addEventListener('click', togglePlay);
 videoButtonPlay.addEventListener('click', togglePlay);
 
@@ -68,9 +103,16 @@ videoPlayer.addEventListener('timeupdate', () => {
     videoTimeTotal.textContent = `${addZero(minuteTotal)}:${addZero(secondsTotal)}`;
 });
 
-videoProgress.addEventListener('change', () => {
+videoProgress.addEventListener('input', () => {
     const duration = videoPlayer.duration;
     const value = videoProgress.value;
     videoPlayer.currentTime = (value * duration) / 100;
-})
+});
 
+videoVolume.addEventListener('input', changeVolume)
+// Функцію викликаємо при запуску скрипта для того, щоб відразу записати значення що лежить у велю
+changeVolume();
+
+
+volumeDown.addEventListener('click', toZeroValue);
+volumeUp.addEventListener('click', toMaxValue);
