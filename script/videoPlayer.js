@@ -1,7 +1,6 @@
 "use strict";
 export const videoPlayerInit = () => {
-    console.log('videoPlayerInit');
-};
+
 
 // video-player
 // video-button__play
@@ -18,7 +17,8 @@ const videoPlayer = document.querySelector('.video-player'),
     videoTimeTotal = document.querySelector('.video-time__total'),
     videoVolume = document.querySelector('.video-volume'),
     volumeDown = document.querySelector('.volumeDown'),
-    volumeUp = document.querySelector('.volumeUp');
+    volumeUp = document.querySelector('.volumeUp'),
+    videoFullscreen = document.querySelector('.sizeUp');
 
     let saveCV = videoVolume.value;
     
@@ -34,7 +34,8 @@ const toggleIcon = () => {
     }
 }
 
-const togglePlay = () => {
+const togglePlay = (e) => {
+    e.preventDefault();
     if (videoPlayer.paused) {
         videoPlayer.play();
     } else {
@@ -79,8 +80,11 @@ const toMaxValue = () => {
     }
 }
 
+
+
 videoPlayer.addEventListener('click', togglePlay);
 videoButtonPlay.addEventListener('click', togglePlay);
+
 
 // Інший спосіб активації при кліку
 // videoPlayer.addEventListener('play', togglePlay);
@@ -116,3 +120,25 @@ changeVolume();
 
 volumeDown.addEventListener('click', toZeroValue);
 volumeUp.addEventListener('click', toMaxValue);
+
+
+
+videoFullscreen.addEventListener('click', ()=> {
+    videoPlayer.requestFullscreen();
+});
+
+// Код створює залежність між змною значення повзунка в розгорнутому меню і в згорнутому плеєрі
+videoPlayer.addEventListener('volumechange', () => {
+    videoVolume.value = Math.round(videoPlayer.volume * 100)
+})
+
+
+console.dir(videoPlayer);
+
+};
+// Спосіб перевірки, для уникнення помилок. 
+// try {
+    
+// } catch (e){
+
+// }
